@@ -4,13 +4,14 @@ project(RegigPrototype VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick Svg)
+find_package(Qt6 REQUIRED COMPONENTS Quick Svg Widgets QuickControls2)
 
 qt_standard_project_setup(REQUIRES 6.10)
 
 qt_add_executable(appRegigPrototype
     main.cpp
     coloredsvgimageprovider.cpp
+    #bottomsheet.cpp
 )
 
 qt_add_resources(appRegigPrototype "assets"
@@ -21,13 +22,18 @@ qt_add_qml_module(appRegigPrototype
     URI RegigPrototype
     SOURCES
     coloredsvgimageprovider.h coloredsvgimageprovider.cpp
+    #bottomsheet.h bottomsheet.cpp
     QML_FILES
         Main.qml
         ButtonVenueName.qml
+        Header2.qml
+        comment_section_code_holder.qml
+        BottomSheet.qml
     RESOURCES
         assets/Logo_Artists.svg
         assets/Logo_Artists_1.svg
         assets/fuck.txt
+    IMPORTS QtQuick.Controls.Fusion
 )
 
 
@@ -45,6 +51,8 @@ set_target_properties(appRegigPrototype PROPERTIES
 target_link_libraries(appRegigPrototype
     PRIVATE Qt6::Quick
     PRIVATE Qt6::Svg
+    PRIVATE Qt6::QuickControls2
+    PRIVATE Qt6::Widgets
 )
 
 include(GNUInstallDirs)

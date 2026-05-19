@@ -1,5 +1,5 @@
 import QtQuick
-import QtQuick.Controls.Basic
+import QtQuick.Controls
 import QtQuick.Layouts
 
 ApplicationWindow {
@@ -199,7 +199,26 @@ ApplicationWindow {
             clip: true
             color: "#6c757d"
             radius: 3.20
+
+            Button {
+                text: "Open C++ Bottom Sheet"
+                anchors.centerIn: parent
+                onClicked: optionsSheet.open()
+                //onClicked: {
+                    // Pass the current active window handle context
+                //    cPlusPlusSheet.openSheet()
+                //}
+            }
         }
+
+        // Instantiating the C++ Bottom Sheet
+        //BottomSheet {
+            //id: cPlusPlusSheet
+            // Link the widget parent to the window context mapping
+            //Component.onCompleted: {
+                // Internal window mapping connection
+            //}
+        //}
 
         Rectangle {
             id: r9
@@ -215,18 +234,69 @@ ApplicationWindow {
             radius: 3.20
         }
 
-        Rectangle {
-            id: r10
+        ButtonVenueName{
+            id: test
+            venue_buttonLayoutWidth: parent.width
+            venue_buttonLayoutHeight: 95
+        }
+    }
 
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 95
-            Layout.preferredWidth: parent.width
-            border.color: "#6c757d"
-            border.width: 1
-            clip: true
-            color: "#6c757d"
-            radius: 3.20
+    BottomSheet {
+        id: optionsSheet
+        title: "Options"
+
+        ColumnLayout {
+            width: parent.width
+            spacing: 0
+
+            Repeater {
+                model: [
+                    { icon: "✏️",  label: "Edit"    },
+                    { icon: "📋",  label: "Copy"    },
+                    { icon: "🔗",  label: "Share"   },
+                    { icon: "🗑️",  label: "Delete"  }
+                ]
+
+                delegate: Rectangle {
+                    required property var modelData
+                    Layout.fillWidth: true
+                    height: 56
+                    color: hovered ? "#F4F6FB" : "transparent"
+
+                    property bool hovered: false
+
+                    RowLayout {
+                        anchors { fill: parent; leftMargin: 24; rightMargin: 24 }
+                        spacing: 16
+
+                        Text {
+                            text: modelData.icon
+                            font.pixelSize: 20
+                        }
+                        Text {
+                            Layout.fillWidth: true
+                            text:             modelData.label
+                            font.pixelSize:   15
+                            color:            "#1A1A2E"
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered:  parent.hovered = true
+                        onExited:   parent.hovered = false
+                        onClicked:  optionsSheet.close()
+                    }
+
+                    Rectangle {
+                        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+                        height: 1
+                        color:  "#10F0F0"
+                        visible: true
+                    }
+                }
+            }
         }
     }
 }

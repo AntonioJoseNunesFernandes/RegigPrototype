@@ -1,6 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickStyle>
 #include "coloredsvgimageprovider.h"
+//#include "bottomsheet.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,10 +15,14 @@ int main(int argc, char *argv[])
 
 
     qputenv("QML_XHR_ALLOW_FILE_READ", "1");
+    QQuickStyle::setStyle("Fusion");
 
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    //qmlRegisterType<BottomSheet>("mycompanywidgets", 1, 0, "BottomSheet");
+
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,
