@@ -7,237 +7,111 @@ ApplicationWindow {
     height: 956
     visible: true
     title: qsTr("Hello World")
-
-    ColumnLayout {
-        id: layout
-        x: 0
-        y: 0
-        height: parent.height
+    footer: TabBar{
+        id: bottomTabBar
         width: parent.width
 
-        Layout.topMargin: 3
-        Layout.bottomMargin: 3
-
-        spacing: 0
-
-        Rectangle {
-            id: r1
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 95
-            Layout.preferredWidth: parent.width
-            border.color: "#000000"
-            border.width: 1
-            clip: true
-            color: "#000000"
-            radius: 3.20
+        TabButton {
+            text: qsTr("1")
         }
+        TabButton {
+            text: qsTr("2")
+        }
+        TabButton {
+            text: qsTr("3")
+            enabled: false
+        }
+        TabButton {
+            text: qsTr("4")
+            enabled: false
+        }
+    }
 
-        Rectangle {
-            id: r2
+    StackLayout {
+        id: sl
+        width: parent.width
+        height: parent.height
+        currentIndex: bottomTabBar.currentIndex
+        Item {
+            id: mapTab
 
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 95
-            Layout.preferredWidth: parent.width
-            border.color: "#ffffff"
-            border.width: 1
-            clip: true
-            color: "#ffffff"
-            radius: 3.20
+            ColumnLayout {
+                id: layout
+                height: sl.height
+                width: sl.width
 
-            property string iconColor: "#000000"
-            property string svgSource: ""
-            property string svgDir: "assets/Logo_Artists.svg"
+                Layout.topMargin: 3
+                Layout.bottomMargin: 3
 
-            Component.onCompleted: loadSvg(svgDir, iconColor, 73, 65, function(result) {svgSource = result})
+                spacing: 0
 
-            function loadSvg(dir, color_, width_, height_, callback) {
-                var xhr = new XMLHttpRequest()
-                xhr.open("GET", dir, true)
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        var raw = xhr.responseText
+                Rectangle {
+                    id: r7
 
-                        // Replace fill color
-                        raw = raw.replace(/fill="[^"]*"/g,   `fill="${color_}"`)
-                        // Replace width
-                        raw = raw.replace(/width="[^"]*"/g,  `width="${width_}"`)
-                        // Replace height
-                        raw = raw.replace(/height="[^"]*"/g, `height="${height_}"`)
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 95
+                    Layout.preferredWidth: parent.width
+                    border.color: "#000000"
+                    border.width: 1
+                    clip: true
+                    color: "#000000"
+                    radius: 3.20
 
-                        // Also handle stroke if needed
-                        // raw = raw.replace(/stroke="[^"]*"/g, `stroke="${i}"`)
+                    Image {
+                        id: please
+                        property string iconColor: "00ff1a"
 
-                        callback("data:image/svg xml;utf8," + encodeURIComponent(raw))
+                        source: "image://mysvgprovider/assets/Logo_Artists_1.svg?color=" + iconColor
+                        width: 73
+                        height: 65
+                        sourceSize.width: 73
+                        sourceSize.height: 65
+
+                        anchors.leftMargin: 15
+                        anchors.topMargin: 15
+                        anchors.top : parent.top
+                        anchors.left: parent.left
                     }
                 }
-                xhr.send()
-            }
 
-            Image {
-                id: iconImage
-                source: r2.svgSource
-                width: 73
-                height: 65
-                sourceSize.width: 73
-                sourceSize.height: 65
+                Rectangle {
+                    id: r8
 
-                anchors.leftMargin: 15
-                anchors.topMargin: 15
-                anchors.top : parent.top
-                anchors.left: parent.left
-            }
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 95
+                    Layout.preferredWidth: parent.width
+                    border.color: "#6c757d"
+                    border.width: 1
+                    clip: true
+                    color: "#6c757d"
+                    radius: 3.20
 
-            Image {
-                id: iconImage1
-                source: "assets/Logo_Artists.svg"
-                sourceSize.width: 73
-                sourceSize.height: 65
-
-                anchors.rightMargin: 15
-                anchors.topMargin: 15
-                anchors.top : parent.top
-                anchors.right: parent.right
+                    Button {
+                        text: "Open C++ Bottom Sheet"
+                        anchors.centerIn: parent
+                        onClicked: optionsSheet.open()
+                    }
+                }
             }
         }
+        Item {
+            id: followingTab
 
-        Rectangle {
-            id: r3
+            ButtonVenueName{
+                id: test
+                venue_buttonLayoutWidth: parent.width
+                venue_buttonLayoutHeight: 95
 
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 95
-            Layout.preferredWidth: parent.width
-            border.color: "#000000"
-            border.width: 1
-            clip: true
-            color: "#000000"
-            radius: 3.20
-        }
-
-        Rectangle {
-            id: r4
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 95
-            Layout.preferredWidth: parent.width
-            border.color: "#ffffff"
-            border.width: 1
-            clip: true
-            color: "#ffffff"
-            radius: 3.20
-
-            Image {
-                id: please
-                source: "image://mysvgprovider/assets/Logo_Artists_1.svg?color=000000"
-                width: 73
-                height: 65
-                sourceSize.width: 73
-                sourceSize.height: 65
-
-                anchors.leftMargin: 15
-                anchors.topMargin: 15
-                anchors.top : parent.top
-                anchors.left: parent.left
+                Layout.topMargin: 30
             }
         }
-
-        Rectangle {
-            id: r5
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 95
-            Layout.preferredWidth: parent.width
-            border.color: "#000000"
-            border.width: 1
-            clip: true
-            color: "#000000"
-            radius: 3.20
+        Item {
+            id: artistSearchTab
         }
-
-        Rectangle {
-            id: r6
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 95
-            Layout.preferredWidth: parent.width
-            border.color: "#6c757d"
-            border.width: 1
-            clip: true
-            color: "#6c757d"
-            radius: 3.20
-        }
-
-        Rectangle {
-            id: r7
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 95
-            Layout.preferredWidth: parent.width
-            border.color: "#000000"
-            border.width: 1
-            clip: true
-            color: "#000000"
-            radius: 3.20
-        }
-
-        Rectangle {
-            id: r8
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 95
-            Layout.preferredWidth: parent.width
-            border.color: "#6c757d"
-            border.width: 1
-            clip: true
-            color: "#6c757d"
-            radius: 3.20
-
-            Button {
-                text: "Open C++ Bottom Sheet"
-                anchors.centerIn: parent
-                onClicked: optionsSheet.open()
-                //onClicked: {
-                    // Pass the current active window handle context
-                //    cPlusPlusSheet.openSheet()
-                //}
-            }
-        }
-
-        // Instantiating the C++ Bottom Sheet
-        //BottomSheet {
-            //id: cPlusPlusSheet
-            // Link the widget parent to the window context mapping
-            //Component.onCompleted: {
-                // Internal window mapping connection
-            //}
-        //}
-
-        Rectangle {
-            id: r9
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.preferredHeight: 95
-            Layout.preferredWidth: parent.width
-            border.color: "#000000"
-            border.width: 1
-            clip: true
-            color: "#000000"
-            radius: 3.20
-        }
-
-        ButtonVenueName{
-            id: test
-            venue_buttonLayoutWidth: parent.width
-            venue_buttonLayoutHeight: 95
+        Item {
+            id: userTab
         }
     }
 

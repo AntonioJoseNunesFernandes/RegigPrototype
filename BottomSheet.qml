@@ -191,6 +191,12 @@ Item {
                     return h || 0
                 }
             }
+
+            // Bottom safe-area spacer
+            Item {
+                Layout.fillWidth: true
+                height: 16
+            }
         }
 
         // Snap-back animation
